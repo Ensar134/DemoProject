@@ -6,7 +6,6 @@ using TMPro;
 public class SpinManager : MonoBehaviour
 {
     [SerializeField] private Button uiSpinButton;
-    [SerializeField] private TextMeshProUGUI uiSpinButtonText;
     [SerializeField] private PickerWheel pickerWheel;
 
     private void Start()
@@ -14,7 +13,6 @@ public class SpinManager : MonoBehaviour
         uiSpinButton.onClick.AddListener(() => {
 
             uiSpinButton.interactable = false;
-            uiSpinButtonText.text = "Spinning";
 
             pickerWheel.OnSpinEnd(wheelPiece => {
                 Debug.Log(
@@ -23,7 +21,6 @@ public class SpinManager : MonoBehaviour
                 );
 
                 uiSpinButton.interactable = true;
-                uiSpinButtonText.text = "Spin";
             });
 
             pickerWheel.Spin();
