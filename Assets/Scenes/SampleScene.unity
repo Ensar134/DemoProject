@@ -569,6 +569,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiSpinButton: {fileID: 716945993}
   pickerWheel: {fileID: 114361575571275613}
+  spinCounter: 0
+  wheelObjects: []
   bronzeItems:
   - {fileID: 11400000, guid: 1ee42312329bf914c874f70e2d624ec5, type: 2}
   - {fileID: 11400000, guid: 15378ddbe6f232547b18eeb77bbd30d9, type: 2}
@@ -1139,55 +1141,6 @@ MonoBehaviour:
   pitch: 1
   spinDuration: 5
   wheelSize: 1
-  wheelPieces:
-  - Icon: {fileID: 21300000, guid: 926686532f051bb4b97e6fb9f639aada, type: 3}
-    Label: Coin
-    Amount: 1
-    Chance: 10
-    Index: 0
-    _weight: 0
-  - Icon: {fileID: 21300000, guid: a598c48d0fc23934b9fb9cae2bb7c8d1, type: 3}
-    Label: Money
-    Amount: 20
-    Chance: 10
-    Index: 0
-    _weight: 0
-  - Icon: {fileID: 21300000, guid: 9d01d70e370843444a976a30fcc040e9, type: 3}
-    Label: BigChest
-    Amount: 1
-    Chance: 10
-    Index: 0
-    _weight: 0
-  - Icon: {fileID: 21300000, guid: 5a8f3f9d1cb906944bb45178b331495d, type: 3}
-    Label: BronzChest
-    Amount: 2
-    Chance: 10
-    Index: 0
-    _weight: 0
-  - Icon: {fileID: 21300000, guid: 6a1080da0a4116649a24281ddceaccaf, type: 3}
-    Label: ShotgunTier1
-    Amount: 1
-    Chance: 10
-    Index: 0
-    _weight: 0
-  - Icon: {fileID: 21300000, guid: 96cc89471e643f54abbf65431a622cf2, type: 3}
-    Label: PistolPoints
-    Amount: 20
-    Chance: 10
-    Index: 0
-    _weight: 0
-  - Icon: {fileID: 21300000, guid: 64a93724bb1da9640a4e420d39e9471e, type: 3}
-    Label: Bomb
-    Amount: 1
-    Chance: 10
-    Index: 0
-    _weight: 0
-  - Icon: {fileID: 21300000, guid: 926686532f051bb4b97e6fb9f639aada, type: 3}
-    Label: Coin
-    Amount: 50
-    Chance: 10
-    Index: 0
-    _weight: 0
 --- !u!114 &114852783652682015
 MonoBehaviour:
   m_ObjectHideFlags: 0

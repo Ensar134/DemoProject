@@ -58,11 +58,13 @@ public class SpinManager : MonoBehaviour
 
         System.Random rand = new();
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 7; i++)
         {
             int randomIndex = rand.Next(0, bronzeItems.Count); // Rastgele bir indeks seç
             WheelObject secilenObj = bronzeItems[randomIndex]; // Seçilen objeyi al
             wheelObjects.Add(secilenObj); // Seçilen objeyi yeni listeye ekle
         }
+
+        wheelObjects.Add(bronzeItems[0]); //Bomba eklendi.
     }
 }
