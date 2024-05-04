@@ -507,6 +507,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 716945991}
   m_CullTransparentMesh: 1
+--- !u!1 &797065531
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 797065532}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &797065532
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797065531}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &879955557
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,6 +569,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiSpinButton: {fileID: 716945993}
   pickerWheel: {fileID: 114361575571275613}
+  bronzeItems:
+  - {fileID: 11400000, guid: 1ee42312329bf914c874f70e2d624ec5, type: 2}
+  - {fileID: 11400000, guid: 15378ddbe6f232547b18eeb77bbd30d9, type: 2}
+  - {fileID: 11400000, guid: b354704412e6e2b43874897e3c715ddb, type: 2}
+  - {fileID: 11400000, guid: 0307fe0516042fd47adef9aa54ccf408, type: 2}
+  - {fileID: 11400000, guid: 9590a853321bff44ab14453a230ba311, type: 2}
+  - {fileID: 11400000, guid: dc6580199478942408187b6fdf25b532, type: 2}
+  - {fileID: 11400000, guid: 46090dfa310a564448510d90499f2f46, type: 2}
+  - {fileID: 11400000, guid: e919feccd99b00c47b2cf0844ea2450e, type: 2}
+  - {fileID: 11400000, guid: bdb428352f3371841b0176fab2d18121, type: 2}
+  - {fileID: 11400000, guid: 2aead8c3aa0889f4ead8ac239f558760, type: 2}
+  silverItems:
+  - {fileID: 11400000, guid: 038845fbba97fee48a8d71c0825396d5, type: 2}
+  - {fileID: 11400000, guid: 0ce039c817eaca441a5d4f5926775651, type: 2}
+  - {fileID: 11400000, guid: a08b2274bf7b4814ea421ede9a89b161, type: 2}
+  - {fileID: 11400000, guid: aca42256f8ef8e4499c7106ed97a3dc6, type: 2}
+  - {fileID: 11400000, guid: 4c31544d34377354a8eb4455abc81be6, type: 2}
+  - {fileID: 11400000, guid: 5556db07b9bbd2e44a17ac308b9cd863, type: 2}
+  - {fileID: 11400000, guid: 4a1073cb2fb4a3d458b22d4432eb7f41, type: 2}
+  - {fileID: 11400000, guid: 0b3626cc4c94d4f4390d8f700a333429, type: 2}
+  - {fileID: 11400000, guid: 2aead8c3aa0889f4ead8ac239f558760, type: 2}
+  - {fileID: 11400000, guid: ca43d7a87b6b6aa408361867b79dc4d1, type: 2}
+  goldItems:
+  - {fileID: 11400000, guid: fa03eeca98e9e164ba7eed493c85a497, type: 2}
+  - {fileID: 11400000, guid: 75352e5d0f9b51f4db19f036c7b5c363, type: 2}
+  - {fileID: 11400000, guid: e6666024eed8764408067026e034ec6f, type: 2}
+  - {fileID: 11400000, guid: d86b45fdcaf5bc947a89631034adf620, type: 2}
+  - {fileID: 11400000, guid: 7a2c652edc7d23946b9ecba4c52d2418, type: 2}
+  - {fileID: 11400000, guid: 77af3f4e21b2f174ea63e27e138aeecf, type: 2}
+  - {fileID: 11400000, guid: 333f2cc25513ddf49adbe52560446896, type: 2}
+  - {fileID: 11400000, guid: d98e5d6d5c1780046b83e23ab1d09946, type: 2}
+  - {fileID: 11400000, guid: fea604bb34a5dee41a171cd75c78404a, type: 2}
+  - {fileID: 11400000, guid: 345c269e7707e374f837b9633ef1fd35, type: 2}
 --- !u!4 &879955559
 Transform:
   m_ObjectHideFlags: 0
@@ -1076,51 +1140,51 @@ MonoBehaviour:
   spinDuration: 5
   wheelSize: 1
   wheelPieces:
-  - Icon: {fileID: 21300000, guid: 6e980baa502e72148bbc79fb42c81d10, type: 3}
-    Label: Lorem
-    Amount: 10
-    Chance: 100
+  - Icon: {fileID: 21300000, guid: 926686532f051bb4b97e6fb9f639aada, type: 3}
+    Label: Coin
+    Amount: 1
+    Chance: 10
     Index: 0
     _weight: 0
-  - Icon: {fileID: 21300002, guid: 6e980baa502e72148bbc79fb42c81d10, type: 3}
-    Label: Iposum
+  - Icon: {fileID: 21300000, guid: a598c48d0fc23934b9fb9cae2bb7c8d1, type: 3}
+    Label: Money
     Amount: 20
-    Chance: 100
-    Index: 0
-    _weight: 0
-  - Icon: {fileID: 21300004, guid: 6e980baa502e72148bbc79fb42c81d10, type: 3}
-    Label: Tupala
-    Amount: 30
-    Chance: 60
-    Index: 0
-    _weight: 0
-  - Icon: {fileID: 21300030, guid: 6e980baa502e72148bbc79fb42c81d10, type: 3}
-    Label: Consectetur
-    Amount: 40
-    Chance: 25
-    Index: 0
-    _weight: 0
-  - Icon: {fileID: 21300008, guid: 6e980baa502e72148bbc79fb42c81d10, type: 3}
-    Label: Vallar
-    Amount: 60
     Chance: 10
     Index: 0
     _weight: 0
-  - Icon: {fileID: 21300034, guid: 6e980baa502e72148bbc79fb42c81d10, type: 3}
-    Label: Test17
-    Amount: 60
+  - Icon: {fileID: 21300000, guid: 9d01d70e370843444a976a30fcc040e9, type: 3}
+    Label: BigChest
+    Amount: 1
     Chance: 10
     Index: 0
     _weight: 0
-  - Icon: {fileID: 21300012, guid: 6e980baa502e72148bbc79fb42c81d10, type: 3}
-    Label: Test6
-    Amount: 60
+  - Icon: {fileID: 21300000, guid: 5a8f3f9d1cb906944bb45178b331495d, type: 3}
+    Label: BronzChest
+    Amount: 2
     Chance: 10
     Index: 0
     _weight: 0
-  - Icon: {fileID: 21300020, guid: 6e980baa502e72148bbc79fb42c81d10, type: 3}
-    Label: Test10
-    Amount: 60
+  - Icon: {fileID: 21300000, guid: 6a1080da0a4116649a24281ddceaccaf, type: 3}
+    Label: ShotgunTier1
+    Amount: 1
+    Chance: 10
+    Index: 0
+    _weight: 0
+  - Icon: {fileID: 21300000, guid: 96cc89471e643f54abbf65431a622cf2, type: 3}
+    Label: PistolPoints
+    Amount: 20
+    Chance: 10
+    Index: 0
+    _weight: 0
+  - Icon: {fileID: 21300000, guid: 64a93724bb1da9640a4e420d39e9471e, type: 3}
+    Label: Bomb
+    Amount: 1
+    Chance: 10
+    Index: 0
+    _weight: 0
+  - Icon: {fileID: 21300000, guid: 926686532f051bb4b97e6fb9f639aada, type: 3}
+    Label: Coin
+    Amount: 50
     Chance: 10
     Index: 0
     _weight: 0
