@@ -103,7 +103,6 @@ public class SpinManager : MonoBehaviour
 
             pickerWheel.wheelPiecesParent.GetChild(i).GetChild(0).GetChild(0).GetComponent<Image>().gameObject.SetActive(true);
             pickerWheel.wheelPiecesParent.GetChild(i).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().gameObject.SetActive(true);
-            //pickerWheel.DrawNextPieces(wheelObjects[i]);
         }
     }
 }
