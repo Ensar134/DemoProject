@@ -12,14 +12,27 @@ public class SpinManager : MonoBehaviour
 
     [SerializeField] private Button uiSpinButton;
     [SerializeField] private PickerWheel pickerWheel;
+    [SerializeField] private GameObject spinningCircle;
+    [SerializeField] private GameObject indicator;
+    [SerializeField] private TextMeshProUGUI spinName;
 
-    public int spinCounter = 0;
+    public int spinCounter = 29;
 
     public List<WheelObject> wheelObjects;
 
     public List<WheelObject> bronzeItems;
     public List<WheelObject> silverItems;
     public List<WheelObject> goldItems;
+
+    [Header("WheelUI")]
+    [SerializeField] private Sprite bronzeWheelUI;
+    [SerializeField] private Sprite silverWheelUI;
+    [SerializeField] private Sprite goldWheelUI;
+
+    [Header("IndicatorUI")]
+    [SerializeField] private Sprite bronzeIndicatorUI;
+    [SerializeField] private Sprite silverIndicatorUI;
+    [SerializeField] private Sprite goldIndicatorUI;
 
     private void Awake()
     {
@@ -35,7 +48,9 @@ public class SpinManager : MonoBehaviour
     }
 
     private void Start()
-    {       
+    {
+        PrepareUI();
+
         uiSpinButton.onClick.AddListener(() => {
 
             uiSpinButton.interactable = false;
@@ -46,8 +61,6 @@ public class SpinManager : MonoBehaviour
                    + "\n <b>Amount:</b> " + wheelPiece.Amount + "      <b>Chance:</b> " + wheelPiece.Chance + "%"
                 );
 
-                uiSpinButton.interactable = true;
-
                 ChangeWheelObjectsAfterSpin();
                 pickerWheel.EmptyWheel();
 
@@ -55,8 +68,38 @@ public class SpinManager : MonoBehaviour
             });
 
             pickerWheel.Spin();
-            spinCounter++;
         });
+    }
+
+    private void PrepareUI()
+    {
+        if (spinCounter % 30 == 0)
+        {
+            //Gold Spin
+            spinningCircle.GetComponent<Image>().sprite = goldWheelUI;
+            indicator.GetComponent<Image>().sprite = goldIndicatorUI;
+
+            spinName.text = "GOLDEN SPIN";
+            spinName.color = new Color(1.0f, 0.92f, 0.016f);
+        }
+        else if (spinCounter % 5 == 0)
+        {
+            //Silver Spin
+            spinningCircle.GetComponent<Image>().sprite = silverWheelUI;
+            indicator.GetComponent<Image>().sprite = silverIndicatorUI;
+
+            spinName.text = "SILVER SPIN";
+            spinName.color = new Color(1.0f, 1.0f, 1.0f);
+        }
+        else
+        {
+            //Bronze Spin
+            spinningCircle.GetComponent<Image>().sprite = bronzeWheelUI;
+            indicator.GetComponent<Image>().sprite = bronzeIndicatorUI;
+
+            spinName.text = "BRONZE SPIN";
+            spinName.color = new Color(1.0f, 0.64f, 0.0f);
+        }
     }
 
     private void ChooseObjects()
@@ -67,15 +110,15 @@ public class SpinManager : MonoBehaviour
 
         for (int i = 0; i < 7; i++)
         {
-            int randomIndex = rand.Next(0, bronzeItems.Count); // Rastgele bir indeks seç
-            WheelObject secilenObj = bronzeItems[randomIndex]; // Seçilen objeyi al
-            wheelObjects.Add(secilenObj); // Seçilen objeyi yeni listeye ekle
+            int randomIndex = rand.Next(0, bronzeItems.Count);
+            WheelObject secilenObj = bronzeItems[randomIndex]; 
+            wheelObjects.Add(secilenObj); 
         }
 
         wheelObjects.Add(bronzeItems[0]); //Bomba eklendi.
     }
 
-    public void ChangeWheelObjectsAfterSpin()
+    private void ChangeWheelObjectsAfterSpin()
     {
         wheelObjects.Clear();
 
@@ -92,10 +135,8 @@ public class SpinManager : MonoBehaviour
         wheelObjects.Add(bronzeItems[0]); //Bomba eklendi.
     }
 
-    private IEnumerator OnSpinEndWaitTime(float time)
+    private void ChangeWheelObjectsInEverySpin()
     {
-        yield return new WaitForSeconds(time);
-
         for (int i = 0; i < wheelObjects.Count; i++)
         {
             pickerWheel.wheelPiecesParent.GetChild(i).GetChild(0).GetChild(0).GetComponent<Image>().sprite = wheelObjects[i].Icon;
@@ -104,5 +145,19 @@ public class SpinManager : MonoBehaviour
             pickerWheel.wheelPiecesParent.GetChild(i).GetChild(0).GetChild(0).GetComponent<Image>().gameObject.SetActive(true);
             pickerWheel.wheelPiecesParent.GetChild(i).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().gameObject.SetActive(true);
         }
+
+        spinCounter++;
+    }
+
+    private IEnumerator OnSpinEndWaitTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        ChangeWheelObjectsInEverySpin();
+
+        Debug.Log(spinCounter);
+        PrepareUI();
+
+        uiSpinButton.interactable = true;
     }
 }
