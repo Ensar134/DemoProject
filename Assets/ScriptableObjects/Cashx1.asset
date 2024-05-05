@@ -17,5 +17,5 @@ MonoBehaviour:
   Rarity: Bronze
   Amount: 1
   Chance: 10
-  Index: 0
-  _weight: 0
+  Index: 3
+  _weight: 40

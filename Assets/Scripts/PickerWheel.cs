@@ -17,7 +17,7 @@ namespace EasyUI.PickerWheelUI {
         [SerializeField] private Transform PickerWheelTransform ;
         [SerializeField] private Transform wheelCircle ;
         [SerializeField] private GameObject wheelPiecePrefab ;
-        [SerializeField] private Transform wheelPiecesParent ;
+        public Transform wheelPiecesParent ;
 
         [Space]
         [Header ("Sounds :")]
@@ -53,14 +53,16 @@ namespace EasyUI.PickerWheelUI {
         private List<int> nonZeroChancesIndices = new List<int> () ;
         private int wheelObjectCount = 8;
 
+        private Transform pieceTrns;
+
         private void Start () {
             pieceAngle = 360 / wheelObjectCount;
             halfPieceAngle = pieceAngle / 2f ;
             halfPieceAngleWithPaddings = halfPieceAngle - (halfPieceAngle / 4f) ;
 
-            Generate () ;  
+            Generate ();  
+            CalculateWeightsAndIndices ();
 
-            CalculateWeightsAndIndices () ;
             if (nonZeroChancesIndices.Count == 0)
             Debug.LogError ("You can't set all pieces chance to zero") ;
 
@@ -73,7 +75,8 @@ namespace EasyUI.PickerWheelUI {
             audioSource.pitch = pitch ;
         }
 
-        private void Generate () {
+        public void Generate () {
+
             wheelPiecePrefab = InstantiatePiece () ;
 
             RectTransform rt = wheelPiecePrefab.transform.GetChild (0).GetComponent <RectTransform> () ;
@@ -86,16 +89,15 @@ namespace EasyUI.PickerWheelUI {
             {
                 DrawPiece(i);
             }
-            
 
-            Destroy (wheelPiecePrefab) ;
+            Destroy (wheelPiecePrefab);
         }
 
-        private void DrawPiece (int index) {
+        public void DrawPiece (int index) {
 
             WheelObject piece = SpinManager.Instance.wheelObjects[index];
-         
-            Transform pieceTrns = InstantiatePiece ().transform.GetChild (0) ;
+
+            pieceTrns = InstantiatePiece ().transform.GetChild (0) ;
 
             pieceTrns.GetChild (0).GetComponent <Image> ().sprite = piece.Icon ;
             //pieceTrns.GetChild (1).GetComponent <Text> ().text = piece.Label ;
@@ -108,10 +110,23 @@ namespace EasyUI.PickerWheelUI {
             pieceTrns.RotateAround (wheelPiecesParent.position, Vector3.back, pieceAngle * index) ;
         }
 
-        private GameObject InstantiatePiece() {
-            return Instantiate (wheelPiecePrefab, wheelPiecesParent.position, Quaternion.identity, wheelPiecesParent) ;
+        public GameObject InstantiatePiece()
+        {
+            GameObject newPiece = Instantiate(wheelPiecePrefab, wheelPiecesParent.position, Quaternion.identity, wheelPiecesParent);
+            return newPiece;
         }
 
+        public void EmptyWheel()
+        {
+            foreach (Transform child in wheelPiecesParent)
+            {
+                foreach (Transform pieceTransforms in child)
+                {
+                    pieceTransforms.GetChild(0).GetComponent<Image>().gameObject.SetActive(false);
+                    pieceTransforms.GetChild(2).GetComponent<TextMeshProUGUI>().gameObject.SetActive(false);
+                }
+            }
+        }
 
         public void Spin () {
             if (!_isSpinning) {
@@ -182,7 +197,7 @@ namespace EasyUI.PickerWheelUI {
             return 0 ;
         }
 
-        private void CalculateWeightsAndIndices () {
+        public void CalculateWeightsAndIndices () {
             for (int i = 0; i < wheelObjectCount; i++) {
 
                 WheelObject piece = SpinManager.Instance.wheelObjects[i];
@@ -205,7 +220,9 @@ namespace EasyUI.PickerWheelUI {
             PickerWheelTransform.localScale = new Vector3 (wheelSize, wheelSize, 1f) ;
 
             if (wheelObjectCount > piecesMax || wheelObjectCount < piecesMin)
-            Debug.LogError ("[ PickerWheelwheel ]  pieces length must be between " + piecesMin + " and " + piecesMax) ;
+            {
+                Debug.LogError("[ PickerWheelwheel ]  pieces length must be between " + piecesMin + " and " + piecesMax);
+            }
         }
    }
 }

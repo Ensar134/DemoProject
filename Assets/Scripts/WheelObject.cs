@@ -9,7 +9,7 @@ public class WheelObject : ScriptableObject
     public string Label;
     public string Rarity;
 
-    [Tooltip("Reward amount")] public int Amount;
+    [Tooltip("Reward amount")] public float Amount;
 
     [Tooltip("Probability in %")]
     [Range(0f, 100f)]

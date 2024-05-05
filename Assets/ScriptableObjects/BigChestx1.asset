@@ -17,5 +17,5 @@ MonoBehaviour:
   Rarity: Silver
   Amount: 1
   Chance: 10
-  Index: 0
-  _weight: 0
+  Index: 6
+  _weight: 70
