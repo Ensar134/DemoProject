@@ -36,7 +36,7 @@ public class SpinManager : MonoBehaviour
 
     private void Awake()
     {
-        ChooseObjects();
+        ChangeBronzWheelObjectsAfterSpin();
 
         if (Instance != null && Instance != this)
         {
@@ -61,9 +61,7 @@ public class SpinManager : MonoBehaviour
                    + "\n <b>Amount:</b> " + wheelPiece.Amount + "      <b>Chance:</b> " + wheelPiece.Chance + "%"
                 );
 
-                ChangeWheelObjectsAfterSpin();
                 pickerWheel.EmptyWheel();
-
                 StartCoroutine(OnSpinEndWaitTime(3f));
             });
 
@@ -102,23 +100,23 @@ public class SpinManager : MonoBehaviour
         }
     }
 
-    private void ChooseObjects()
+    private void PrepareSpin()
     {
-        wheelObjects.Clear(); 
-
-        System.Random rand = new();
-
-        for (int i = 0; i < 7; i++)
+        if (spinCounter % 30 == 0)
         {
-            int randomIndex = rand.Next(0, bronzeItems.Count);
-            WheelObject secilenObj = bronzeItems[randomIndex]; 
-            wheelObjects.Add(secilenObj); 
+            ChangeGoldenWheelObjectsAfterSpin();
         }
-
-        wheelObjects.Add(bronzeItems[0]); //Bomba eklendi.
+        else if (spinCounter % 5 == 0)
+        {
+            ChangeSilverWheelObjectsAfterSpin();
+        }
+        else
+        {
+            ChangeBronzWheelObjectsAfterSpin();
+        }             
     }
 
-    private void ChangeWheelObjectsAfterSpin()
+    private void ChangeBronzWheelObjectsAfterSpin()
     {
         wheelObjects.Clear();
 
@@ -126,13 +124,41 @@ public class SpinManager : MonoBehaviour
 
         for (int i = 0; i < 7; i++)
         {
-            int randomIndex = rand.Next(0, bronzeItems.Count); // Rastgele bir indeks seç
-            WheelObject selectedObj = bronzeItems[randomIndex]; // Seçilen objeyi al
+            int randomIndex = rand.Next(0, bronzeItems.Count); 
+            WheelObject selectedObj = bronzeItems[randomIndex];
             //selectedObj.Amount *= 1.2f;
-            wheelObjects.Add(selectedObj); // Seçilen objeyi yeni listeye ekle
+            wheelObjects.Add(selectedObj); 
         }
 
         wheelObjects.Add(bronzeItems[0]); //Bomba eklendi.
+    }
+
+    private void ChangeSilverWheelObjectsAfterSpin()
+    {
+        wheelObjects.Clear();
+
+        System.Random rand = new();
+
+        for (int i = 0; i < 8; i++)
+        {
+            int randomIndex = rand.Next(0, silverItems.Count); 
+            WheelObject selectedObj = silverItems[randomIndex];
+            wheelObjects.Add(selectedObj); 
+        }
+    }
+
+    private void ChangeGoldenWheelObjectsAfterSpin()
+    {
+        wheelObjects.Clear();
+
+        System.Random rand = new();
+
+        for (int i = 0; i < 8; i++)
+        {
+            int randomIndex = rand.Next(0, goldItems.Count); 
+            WheelObject selectedObj = goldItems[randomIndex]; 
+            wheelObjects.Add(selectedObj); 
+        }
     }
 
     private void ChangeWheelObjectsInEverySpin()
@@ -145,18 +171,18 @@ public class SpinManager : MonoBehaviour
             pickerWheel.wheelPiecesParent.GetChild(i).GetChild(0).GetChild(0).GetComponent<Image>().gameObject.SetActive(true);
             pickerWheel.wheelPiecesParent.GetChild(i).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>().gameObject.SetActive(true);
         }
-
-        spinCounter++;
     }
 
     private IEnumerator OnSpinEndWaitTime(float time)
     {
         yield return new WaitForSeconds(time);
 
-        ChangeWheelObjectsInEverySpin();
+        spinCounter++;
 
-        Debug.Log(spinCounter);
+        PrepareSpin();
         PrepareUI();
+        
+        ChangeWheelObjectsInEverySpin();        
 
         uiSpinButton.interactable = true;
     }
