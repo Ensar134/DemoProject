@@ -14,7 +14,8 @@ public class SpinManager : MonoBehaviour
     [SerializeField] private PickerWheel pickerWheel;
     [SerializeField] private GameObject spinningCircle;
     [SerializeField] private GameObject indicator;
-    [SerializeField] private TextMeshProUGUI spinName;
+    [SerializeField] private TextMeshProUGUI SpinNameText;
+    [SerializeField] private TextMeshProUGUI spinCounterText;
 
     public int spinCounter = 29;
 
@@ -71,14 +72,16 @@ public class SpinManager : MonoBehaviour
 
     private void PrepareUI()
     {
+        spinCounterText.text = "Spin Counter: " + spinCounter.ToString();
+
         if (spinCounter % 30 == 0)
         {
             //Gold Spin
             spinningCircle.GetComponent<Image>().sprite = goldWheelUI;
             indicator.GetComponent<Image>().sprite = goldIndicatorUI;
 
-            spinName.text = "GOLDEN SPIN";
-            spinName.color = new Color(1.0f, 0.92f, 0.016f);
+            SpinNameText.text = "GOLDEN SPIN";
+            SpinNameText.color = new Color(1.0f, 0.92f, 0.016f);
         }
         else if (spinCounter % 5 == 0)
         {
@@ -86,8 +89,8 @@ public class SpinManager : MonoBehaviour
             spinningCircle.GetComponent<Image>().sprite = silverWheelUI;
             indicator.GetComponent<Image>().sprite = silverIndicatorUI;
 
-            spinName.text = "SILVER SPIN";
-            spinName.color = new Color(1.0f, 1.0f, 1.0f);
+            SpinNameText.text = "SILVER SPIN";
+            SpinNameText.color = new Color(1.0f, 1.0f, 1.0f);
         }
         else
         {
@@ -95,8 +98,8 @@ public class SpinManager : MonoBehaviour
             spinningCircle.GetComponent<Image>().sprite = bronzeWheelUI;
             indicator.GetComponent<Image>().sprite = bronzeIndicatorUI;
 
-            spinName.text = "BRONZE SPIN";
-            spinName.color = new Color(1.0f, 0.64f, 0.0f);
+            SpinNameText.text = "BRONZE SPIN";
+            SpinNameText.color = new Color(1.0f, 0.64f, 0.0f);
         }
     }
 
@@ -178,10 +181,10 @@ public class SpinManager : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         spinCounter++;
+        spinCounterText.text = "Spin Counter: " + spinCounter.ToString();
 
         PrepareSpin();
         PrepareUI();
-        
         ChangeWheelObjectsInEverySpin();        
 
         uiSpinButton.interactable = true;
