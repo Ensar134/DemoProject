@@ -16,6 +16,10 @@ public class RewardManager : MonoBehaviour
     [SerializeField] private Quaternion[] initialRotation;
     [SerializeField] private int itemsAmount;
 
+    public List<string> existingRewardLabel =new();
+
+    private GameObject rewardPrefabGameObject;
+
     void Start()
     {
         if (itemsAmount == 0)
@@ -31,14 +35,16 @@ public class RewardManager : MonoBehaviour
         }
     }
 
+
+
     public void RewardCollect(WheelObject reward)
-    {       
-        foreach(Transform child in pileOfItems.transform)
+    {
+        foreach (Transform child in pileOfItems.transform)
         {
             child.GetComponent<Image>().sprite = reward.Icon;
         }
 
-        GameObject rewardPrefabGameObject = Instantiate(rewardPrefab, rewardObjectsParent);
+        rewardPrefabGameObject = Instantiate(rewardPrefab, rewardObjectsParent);
 
         CountItems(rewardPrefabGameObject, reward);
 
@@ -51,6 +57,7 @@ public class RewardManager : MonoBehaviour
             pileOfItems.transform.GetChild(i).GetComponent<RectTransform>().rotation = initialRotation[i];
         }
     }
+
 
     public void CountItems(GameObject rewardObject, WheelObject reward)
     {
@@ -82,7 +89,7 @@ public class RewardManager : MonoBehaviour
     IEnumerator SaveItems(GameObject rewardObject, WheelObject reward)
     {
         yield return new WaitForSecondsRealtime(0.5f);
-        PlayerPrefs.SetInt("CountDollar", reward.Amount);
-        rewardObject.GetComponentInChildren<TextMeshProUGUI>().text = PlayerPrefs.GetInt("CountDollar").ToString();
+        //rewardObject.GetComponentInChildren<TextMeshProUGUI>().text = PlayerPrefs.GetInt(reward.Label).ToString();
+        //PlayerPrefs.SetInt(rewardObject.GetComponentInChildren<TextMeshProUGUI>().text, reward.Amount);
     }
 }

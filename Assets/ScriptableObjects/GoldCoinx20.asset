@@ -18,4 +18,4 @@ MonoBehaviour:
   Amount: 20
   Chance: 10
   Index: 0
-  _weight: 0
+  _weight: 10

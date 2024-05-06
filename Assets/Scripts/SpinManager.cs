@@ -20,6 +20,12 @@ public class SpinManager : MonoBehaviour
 
     public int spinCounter = 29;
 
+    [Header("RewardUI")]
+    [SerializeField] private GameObject rewardPanel;
+    [SerializeField] private Image rewardImage;
+    [SerializeField] private TextMeshProUGUI rewardAmount;
+    [SerializeField] private Button exitButton;
+
     public List<WheelObject> wheelObjects;
 
     public List<WheelObject> bronzeItems;
@@ -35,6 +41,8 @@ public class SpinManager : MonoBehaviour
     [SerializeField] private Sprite bronzeIndicatorUI;
     [SerializeField] private Sprite silverIndicatorUI;
     [SerializeField] private Sprite goldIndicatorUI;
+
+    private bool startGame = false;
 
     private void Awake()
     {
@@ -55,6 +63,7 @@ public class SpinManager : MonoBehaviour
 
         uiSpinButton.onClick.AddListener(() => {
 
+            exitButton.interactable = false;
             uiSpinButton.interactable = false;
 
             pickerWheel.OnSpinEnd(wheelPiece => {
@@ -63,8 +72,10 @@ public class SpinManager : MonoBehaviour
                    + "\n <b>Amount:</b> " + wheelPiece.Amount + "      <b>Chance:</b> " + wheelPiece.Chance + "%"
                 );
 
+                StartCoroutine(OnRewardPanelOpen(2f,wheelPiece));
+
                 rewardManager.RewardCollect(wheelPiece);
-                
+
                 pickerWheel.EmptyWheel();
                 StartCoroutine(OnSpinEndWaitTime(3f));
             });
@@ -132,10 +143,15 @@ public class SpinManager : MonoBehaviour
         {
             int randomIndex = rand.Next(0, bronzeItems.Count); 
             WheelObject selectedObj = bronzeItems[randomIndex];
-            //selectedObj.Amount *= 1.2f;
+
+            if (startGame == true)
+            {
+                selectedObj.Amount = Mathf.RoundToInt(selectedObj.Amount * 1.4f);
+            }
             wheelObjects.Add(selectedObj); 
         }
 
+        startGame = true;
         wheelObjects.Add(bronzeItems[0]); //Bomba eklendi.
     }
 
@@ -149,6 +165,7 @@ public class SpinManager : MonoBehaviour
         {
             int randomIndex = rand.Next(0, silverItems.Count); 
             WheelObject selectedObj = silverItems[randomIndex];
+            selectedObj.Amount = Mathf.RoundToInt(selectedObj.Amount * 1.4f);
             wheelObjects.Add(selectedObj); 
         }
     }
@@ -191,5 +208,17 @@ public class SpinManager : MonoBehaviour
         ChangeWheelObjectsInEverySpin();        
 
         uiSpinButton.interactable = true;
+    }
+
+    private IEnumerator OnRewardPanelOpen(float time, WheelObject reward)
+    {
+        rewardImage.sprite = reward.Icon;
+        rewardAmount.text = reward.Amount.ToString();
+        rewardPanel.SetActive(true);
+
+        yield return new WaitForSeconds(time);
+
+        rewardPanel.SetActive(false);
+        exitButton.interactable = true;
     }
 }
