@@ -12,6 +12,7 @@ public class SpinManager : MonoBehaviour
 
     [SerializeField] private Button uiSpinButton;
     [SerializeField] private PickerWheel pickerWheel;
+    [SerializeField] private RewardManager rewardManager;
     [SerializeField] private GameObject spinningCircle;
     [SerializeField] private GameObject indicator;
     [SerializeField] private TextMeshProUGUI SpinNameText;
@@ -62,6 +63,8 @@ public class SpinManager : MonoBehaviour
                    + "\n <b>Amount:</b> " + wheelPiece.Amount + "      <b>Chance:</b> " + wheelPiece.Chance + "%"
                 );
 
+                rewardManager.RewardCollect(wheelPiece);
+                
                 pickerWheel.EmptyWheel();
                 StartCoroutine(OnSpinEndWaitTime(3f));
             });
