@@ -35,8 +35,6 @@ public class RewardManager : MonoBehaviour
         }
     }
 
-
-
     public void RewardCollect(WheelObject reward)
     {
         foreach (Transform child in pileOfItems.transform)
@@ -57,7 +55,6 @@ public class RewardManager : MonoBehaviour
             pileOfItems.transform.GetChild(i).GetComponent<RectTransform>().rotation = initialRotation[i];
         }
     }
-
 
     public void CountItems(GameObject rewardObject, WheelObject reward)
     {
