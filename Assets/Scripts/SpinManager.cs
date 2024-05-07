@@ -105,8 +105,9 @@ public class SpinManager : MonoBehaviour
         existingCurrency -= 25;
         currencyText.GetComponentInChildren<TextMeshProUGUI>().text = existingCurrency.ToString();
 
-        PrepareSpin();
         PrepareUI();
+        PrepareSpin();
+        ChangeWheelObjectsInEverySpin();
 
         defeatScreen.SetActive(false);
 
