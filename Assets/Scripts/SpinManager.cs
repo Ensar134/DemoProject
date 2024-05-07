@@ -2,7 +2,7 @@ using UnityEngine;
 using EasyUI.PickerWheelUI;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using System;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using TMPro;
 
@@ -10,6 +10,7 @@ public class SpinManager : MonoBehaviour
 {
     public static SpinManager Instance;
 
+    [Header("SpinUI")]
     [SerializeField] private Button uiSpinButton;
     [SerializeField] private PickerWheel pickerWheel;
     [SerializeField] private RewardManager rewardManager;
@@ -17,8 +18,7 @@ public class SpinManager : MonoBehaviour
     [SerializeField] private GameObject indicator;
     [SerializeField] private TextMeshProUGUI SpinNameText;
     [SerializeField] private TextMeshProUGUI spinCounterText;
-
-    public int spinCounter = 29;
+    [SerializeField] private int spinCounter = 1;
 
     [Header("RewardUI")]
     [SerializeField] private GameObject rewardPanel;
@@ -26,8 +26,19 @@ public class SpinManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI rewardAmount;
     [SerializeField] private Button exitButton;
 
-    public List<WheelObject> wheelObjects;
+    [Header("DefeatUI")]
+    [SerializeField] private Button giveUpButton;
+    [SerializeField] private Button reviveButton;
+    [SerializeField] private GameObject defeatScreen;
+    [SerializeField] private TextMeshProUGUI currencyText;
 
+    [Header("EndGameUI")]
+    [SerializeField] private GameObject collectRewardsScreen;
+    [SerializeField] private GameObject endGameRewardsParent;
+    [SerializeField] private Button restartGameButton;
+
+    [Header("WheelObjects(Selected/Bronz/Silver/Gold)")]
+    public List<WheelObject> wheelObjects;
     public List<WheelObject> bronzeItems;
     public List<WheelObject> silverItems;
     public List<WheelObject> goldItems;
@@ -61,6 +72,10 @@ public class SpinManager : MonoBehaviour
     {
         PrepareUI();
 
+        giveUpButton.onClick.AddListener(GiveUpTask);
+        reviveButton.onClick.AddListener(ReviveTask);
+        restartGameButton.onClick.AddListener(RestartGame);
+
         uiSpinButton.onClick.AddListener(() => {
 
             exitButton.interactable = false;
@@ -72,16 +87,58 @@ public class SpinManager : MonoBehaviour
                    + "\n <b>Amount:</b> " + wheelPiece.Amount + "      <b>Chance:</b> " + wheelPiece.Chance + "%"
                 );
 
-                StartCoroutine(OnRewardPanelOpen(2f,wheelPiece));
-
-                rewardManager.RewardCollect(wheelPiece);
-
-                pickerWheel.EmptyWheel();
-                StartCoroutine(OnSpinEndWaitTime(3f));
+                CheckDeath(wheelPiece);
             });
 
             pickerWheel.Spin();
         });
+    }
+
+    private void RestartGame()
+    {
+        Debug.Log("GAME RESTARTING");
+
+        collectRewardsScreen.SetActive(false);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void ReviveTask()
+    {
+        int existingCurrency = int.Parse(currencyText.GetComponentInChildren<TextMeshProUGUI>().text);
+        existingCurrency -= 25;
+        currencyText.GetComponentInChildren<TextMeshProUGUI>().text = existingCurrency.ToString();
+
+        defeatScreen.SetActive(false);
+
+        uiSpinButton.interactable = true;
+    }
+
+    private void GiveUpTask()
+    {
+        collectRewardsScreen.SetActive(true);
+
+        foreach(Transform reward in rewardManager.rewardObjectsParent)
+        {
+            Instantiate(reward, endGameRewardsParent.transform);
+        }
+    }
+
+    private void CheckDeath(WheelObject reward)
+    {
+        if (reward.Label == "Bomb")
+        {
+            defeatScreen.SetActive(true);
+        }
+        else
+        {
+            StartCoroutine(OnRewardPanelOpen(2f, reward));
+
+            rewardManager.RewardCollect(reward);
+
+            pickerWheel.EmptyWheel();
+            StartCoroutine(OnSpinEndWaitTime(3f));
+        }
     }
 
     private void PrepareUI()
@@ -146,7 +203,7 @@ public class SpinManager : MonoBehaviour
 
             if (startGame == true)
             {
-                selectedObj.Amount = Mathf.RoundToInt(selectedObj.Amount * 1.4f);
+                //selectedObj.Amount = Mathf.RoundToInt(selectedObj.Amount * 1.2f);
             }
             wheelObjects.Add(selectedObj); 
         }

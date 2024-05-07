@@ -9,14 +9,14 @@ public class RewardManager : MonoBehaviour
 {
     [Header("RewardItemPanel")]
     [SerializeField] private GameObject rewardPrefab;
-    [SerializeField] private Transform rewardObjectsParent;
+    public Transform rewardObjectsParent;
 
     [SerializeField] private GameObject pileOfItems;
     [SerializeField] private Vector2[] initialPos;
     [SerializeField] private Quaternion[] initialRotation;
     [SerializeField] private int itemsAmount;
 
-    public List<string> existingRewardLabel =new();
+    public List<string> existingRewards =new();
 
     private GameObject rewardPrefabGameObject;
 
@@ -35,6 +35,42 @@ public class RewardManager : MonoBehaviour
         }
     }
 
+    private void CheckCollectedReward(WheelObject reward)
+    {
+        if (existingRewards.Count >= 1)
+        {
+            if (existingRewards.Contains(reward.Label))
+            {
+                CountItems(rewardPrefabGameObject, reward);
+
+                string existingText = rewardPrefabGameObject.GetComponentInChildren<TextMeshProUGUI>().text;
+                int existingAmount = int.Parse(existingText);
+                existingAmount += reward.Amount;
+                rewardPrefabGameObject.GetComponentInChildren<TextMeshProUGUI>().text = existingAmount.ToString();
+            }
+            else
+            {
+                rewardPrefabGameObject = Instantiate(rewardPrefab, rewardObjectsParent);
+
+                CountItems(rewardPrefabGameObject, reward);
+
+                rewardPrefabGameObject.GetComponent<Image>().sprite = reward.Icon;
+                rewardPrefabGameObject.GetComponentInChildren<TextMeshProUGUI>().text = reward.Amount.ToString();
+            }
+        }
+        else
+        {
+            rewardPrefabGameObject = Instantiate(rewardPrefab, rewardObjectsParent);
+
+            CountItems(rewardPrefabGameObject, reward);
+
+            rewardPrefabGameObject.GetComponent<Image>().sprite = reward.Icon;
+            rewardPrefabGameObject.GetComponentInChildren<TextMeshProUGUI>().text = reward.Amount.ToString();
+        }
+
+        existingRewards.Add(reward.Label);
+    }
+
     public void RewardCollect(WheelObject reward)
     {
         foreach (Transform child in pileOfItems.transform)
@@ -42,12 +78,7 @@ public class RewardManager : MonoBehaviour
             child.GetComponent<Image>().sprite = reward.Icon;
         }
 
-        rewardPrefabGameObject = Instantiate(rewardPrefab, rewardObjectsParent);
-
-        CountItems(rewardPrefabGameObject, reward);
-
-        rewardPrefabGameObject.GetComponent<Image>().sprite = reward.Icon;
-        rewardPrefabGameObject.GetComponentInChildren<TextMeshProUGUI>().text = reward.Amount.ToString();
+        CheckCollectedReward(reward);
 
         for (int i = 0; i < pileOfItems.transform.childCount; i++)
         {

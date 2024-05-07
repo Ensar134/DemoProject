@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b85d3c9b398e98c409c62f4db4b0ca1d, type: 3}
-  m_Name: ArmorPointsx50
+  m_Name: ArmorPointsx100
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 3e3af2321bfd835488b1e4935feca2cc, type: 3}
   Label: ArmorPoints
   Rarity: Gold
-  Amount: 50
+  Amount: 100
   Chance: 10
   Index: 0
   _weight: 0

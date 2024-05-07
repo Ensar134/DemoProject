@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b85d3c9b398e98c409c62f4db4b0ca1d, type: 3}
-  m_Name: GoldCoinx200
+  m_Name: PistolPointsx100
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 926686532f051bb4b97e6fb9f639aada, type: 3}
-  Label: GoldCoin
+  Icon: {fileID: 21300000, guid: 96cc89471e643f54abbf65431a622cf2, type: 3}
+  Label: PistolPoints
   Rarity: Gold
-  Amount: 200
+  Amount: 100
   Chance: 10
   Index: 0
   _weight: 0
