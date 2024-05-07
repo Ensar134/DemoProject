@@ -98,6 +98,7 @@ public class SpinManager : MonoBehaviour
     {
         Debug.Log("GAME RESTARTING");
 
+        defeatScreen.SetActive(false);
         collectRewardsScreen.SetActive(false);
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -108,6 +109,9 @@ public class SpinManager : MonoBehaviour
         int existingCurrency = int.Parse(currencyText.GetComponentInChildren<TextMeshProUGUI>().text);
         existingCurrency -= 25;
         currencyText.GetComponentInChildren<TextMeshProUGUI>().text = existingCurrency.ToString();
+
+        PrepareSpin();
+        PrepareUI();
 
         defeatScreen.SetActive(false);
 

@@ -19,6 +19,7 @@ public class RewardManager : MonoBehaviour
     public List<string> existingRewards =new();
 
     private GameObject rewardPrefabGameObject;
+    private GameObject existingRewardPrefabGameObject;
 
     void Start()
     {
@@ -39,14 +40,24 @@ public class RewardManager : MonoBehaviour
     {
         if (existingRewards.Count >= 1)
         {
-            if (existingRewards.Contains(reward.Label))
+            if (existingRewards.IndexOf(reward.Label) != -1)
             {
-                CountItems(rewardPrefabGameObject, reward);
+                for (int i = 0; i < existingRewards.Count; i++)
+                {
+                    if (existingRewards[i] == reward.Label)
+                    {
+                        Debug.Log($"Liste {reward.Label} öðesini içeriyor ve index: {i}"); // Ýndex deðerini yazdýr
 
-                string existingText = rewardPrefabGameObject.GetComponentInChildren<TextMeshProUGUI>().text;
+                        existingRewardPrefabGameObject = rewardObjectsParent.GetChild(i).gameObject;
+                    }
+                }
+
+                CountItems(existingRewardPrefabGameObject, reward);
+
+                string existingText = existingRewardPrefabGameObject.GetComponentInChildren<TextMeshProUGUI>().text;
                 int existingAmount = int.Parse(existingText);
                 existingAmount += reward.Amount;
-                rewardPrefabGameObject.GetComponentInChildren<TextMeshProUGUI>().text = existingAmount.ToString();
+                existingRewardPrefabGameObject.GetComponentInChildren<TextMeshProUGUI>().text = existingAmount.ToString();
             }
             else
             {
@@ -68,7 +79,10 @@ public class RewardManager : MonoBehaviour
             rewardPrefabGameObject.GetComponentInChildren<TextMeshProUGUI>().text = reward.Amount.ToString();
         }
 
-        existingRewards.Add(reward.Label);
+        if (!existingRewards.Contains(reward.Label))
+        {
+            existingRewards.Add(reward.Label);
+        }
     }
 
     public void RewardCollect(WheelObject reward)
