@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using TMPro;
+using System;
 
 public class SpinManager : MonoBehaviour
 {
@@ -71,10 +72,7 @@ public class SpinManager : MonoBehaviour
     private void Start()
     {
         PrepareUI();
-
-        giveUpButton.onClick.AddListener(GiveUpTask);
-        reviveButton.onClick.AddListener(ReviveTask);
-        restartGameButton.onClick.AddListener(RestartGame);
+        PrepareButtons();
 
         uiSpinButton.onClick.AddListener(() => {
 
@@ -96,11 +94,8 @@ public class SpinManager : MonoBehaviour
 
     private void RestartGame()
     {
-        Debug.Log("GAME RESTARTING");
-
         defeatScreen.SetActive(false);
         collectRewardsScreen.SetActive(false);
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -194,6 +189,24 @@ public class SpinManager : MonoBehaviour
         }             
     }
 
+    private void PrepareButtons()
+    {
+        exitButton.onClick.AddListener(ExitGame);
+        giveUpButton.onClick.AddListener(GiveUpTask);
+        reviveButton.onClick.AddListener(ReviveTask);
+        restartGameButton.onClick.AddListener(RestartGame);
+    }
+
+    private void ExitGame()
+    {
+        collectRewardsScreen.SetActive(true);
+
+        foreach (Transform reward in rewardManager.rewardObjectsParent)
+        {
+            Instantiate(reward, endGameRewardsParent.transform);
+        }
+    }
+
     private void ChangeBronzWheelObjectsAfterSpin()
     {
         wheelObjects.Clear();
@@ -207,7 +220,7 @@ public class SpinManager : MonoBehaviour
 
             if (startGame == true)
             {
-                //selectedObj.Amount = Mathf.RoundToInt(selectedObj.Amount * 1.2f);
+                selectedObj.Amount = Mathf.RoundToInt(selectedObj.Amount * 1.2f);
             }
             wheelObjects.Add(selectedObj); 
         }
@@ -226,7 +239,7 @@ public class SpinManager : MonoBehaviour
         {
             int randomIndex = rand.Next(0, silverItems.Count); 
             WheelObject selectedObj = silverItems[randomIndex];
-            selectedObj.Amount = Mathf.RoundToInt(selectedObj.Amount * 1.4f);
+            selectedObj.Amount = Mathf.RoundToInt(selectedObj.Amount * 1.2f);
             wheelObjects.Add(selectedObj); 
         }
     }

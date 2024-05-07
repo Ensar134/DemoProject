@@ -31,7 +31,6 @@ namespace EasyUI.PickerWheelUI {
         [Range (1, 20)] public int spinDuration = 8 ;
         [SerializeField] [Range (.2f, 2f)] private float wheelSize = 1f ;
 
-        // Events
         private UnityAction onSpinStartEvent ;
         private UnityAction<WheelObject> onSpinEndEvent ;
 
@@ -42,14 +41,12 @@ namespace EasyUI.PickerWheelUI {
         private Vector2 pieceMaxSize = new Vector2 (144f, 213f) ;
         private int piecesMin = 2 ;
         private int piecesMax = 12 ;
-
         private float pieceAngle ;
         private float halfPieceAngle ;
         private float halfPieceAngleWithPaddings ;
 
         private double accumulatedWeight ;
         private System.Random rand = new System.Random () ;
-
         private List<int> nonZeroChancesIndices = new List<int> () ;
         private int wheelObjectCount = 8;
 

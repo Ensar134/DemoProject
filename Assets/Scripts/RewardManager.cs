@@ -9,17 +9,15 @@ public class RewardManager : MonoBehaviour
 {
     [Header("RewardItemPanel")]
     [SerializeField] private GameObject rewardPrefab;
-    public Transform rewardObjectsParent;
-
     [SerializeField] private GameObject pileOfItems;
     [SerializeField] private Vector2[] initialPos;
     [SerializeField] private Quaternion[] initialRotation;
     [SerializeField] private int itemsAmount;
+    [SerializeField] private GameObject rewardPrefabGameObject;
+    [SerializeField] private GameObject existingRewardPrefabGameObject;
 
     public List<string> existingRewards =new();
-
-    private GameObject rewardPrefabGameObject;
-    private GameObject existingRewardPrefabGameObject;
+    public Transform rewardObjectsParent;
 
     void Start()
     {
@@ -46,7 +44,7 @@ public class RewardManager : MonoBehaviour
                 {
                     if (existingRewards[i] == reward.Label)
                     {
-                        Debug.Log($"Liste {reward.Label} öðesini içeriyor ve index: {i}"); // Ýndex deðerini yazdýr
+                        Debug.Log($"Liste {reward.Label} öðesini içeriyor ve index: {i}"); 
 
                         existingRewardPrefabGameObject = rewardObjectsParent.GetChild(i).gameObject;
                     }
@@ -56,7 +54,8 @@ public class RewardManager : MonoBehaviour
 
                 string existingText = existingRewardPrefabGameObject.GetComponentInChildren<TextMeshProUGUI>().text;
                 int existingAmount = int.Parse(existingText);
-                existingAmount += reward.Amount;
+                int rewAmount = reward.Amount;
+                existingAmount += rewAmount;
                 existingRewardPrefabGameObject.GetComponentInChildren<TextMeshProUGUI>().text = existingAmount.ToString();
             }
             else
@@ -113,10 +112,8 @@ public class RewardManager : MonoBehaviour
             pileOfItems.transform.GetChild(i).GetComponent<RectTransform>().DOAnchorPos(new Vector2(-750f, 100f), 0.8f)
                 .SetDelay(delay + 0.5f).SetEase(Ease.InBack);
 
-
             pileOfItems.transform.GetChild(i).DORotate(Vector3.zero, 0.5f).SetDelay(delay + 0.5f)
                 .SetEase(Ease.Flash);
-
 
             pileOfItems.transform.GetChild(i).DOScale(0f, 0.3f).SetDelay(delay + 1.5f).SetEase(Ease.OutBack);
 
